@@ -1,0 +1,45 @@
+{
+    "enabled": true,
+    "realm": "master",
+    "clientProfiles": {
+        "profiles": [
+            {
+                "name": "client-secret-rotation",
+                "description": "rotate client secrets",
+                "executors": [
+                    {
+                        "executor": "secret-rotation",
+                        "configuration": {
+                            "expiration-period": 2505600,
+                            "rotated-expiration-period": 172800,
+                            "remaining-rotation-period": 864000
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    "clientPolicies": {
+        "policies": [
+            {
+                "name": "secret-rotation",
+                "description": "",
+                "enabled": true,
+                "conditions": [
+                    {
+                        "condition": "client-access-type",
+                        "configuration": {
+                            "is-negative-logic": false,
+                            "type": [
+                                "confidential"
+                            ]
+                        }
+                    }
+                ],
+                "profiles": [
+                    "client-secret-rotation"
+                ]
+            }
+        ]
+    }
+}

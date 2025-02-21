@@ -1,0 +1,22 @@
+name: keycloak-import-demo
+services:
+  db-keycloak:
+    image: postgres:16.2
+    volumes:
+      - "keycloak-db:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak_user
+      POSTGRES_PASSWORD: keycloak
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.6
+    env_file: "./compose.env"
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db-keycloak
+    command: start-dev --features=client-secret-rotation
+
+volumes:
+  keycloak-db:
+    external: true
